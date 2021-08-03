@@ -10,18 +10,42 @@
       <el-button>el-button</el-button>
       <a-button type="primary">Ant Primary</a-button>
     </div>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <div>
+      <div id="components-form-demo-global-state">
+        <customized-form :username="fields.username" @change="handleFormChange"/>
+        <pre class="language-bash">
+         {{ JSON.stringify(fields, null, 2) }}
+        </pre>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import CustomizedForm from './components/CustomizedForm.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
-  }
+    CustomizedForm
+  },
+  data() {
+    return {
+      fields: {
+        username: {
+          value: 'benjycui',
+        },
+      },
+    }
+  },
+  methods: {
+    handleFormChange(changedFields) {
+      console.log('changedFields', changedFields);
+      this.fields = { ...this.fields, ...changedFields };
+    },
+  },
 }
 </script>
 
@@ -33,5 +57,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#components-form-demo-global-state .language-bash {
+  max-width: 400px;
+  border-radius: 6px;
+  margin-top: 24px;
 }
 </style>
