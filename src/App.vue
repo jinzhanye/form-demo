@@ -72,12 +72,27 @@
         </el-form-item>
       </el-form>
     </div>
+
+    <div>
+      <div id="components-form-demo-global-state">
+        <customized-form :username="fields.username" @change="handleFormChange"/>
+        <pre class="language-bash">
+         {{ JSON.stringify(fields, null, 2) }}
+        </pre>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
+import CustomizedForm from './components/CustomizedForm.vue'
+
 export default {
   name: 'app',
+  components: {
+    CustomizedForm,
+  },
   data() {
     return {
       formLayout: 'horizontal',
@@ -85,10 +100,19 @@ export default {
       numberValidateForm: {
         name: '',
         age: '',
-      }
+      },
+      fields: {
+        username: {
+          value: 'benjycui',
+        },
+      },
     }
   },
   methods: {
+    handleFormChange(changedFields) {
+      console.log('changedFields', changedFields);
+      this.fields = { ...this.fields, ...changedFields };
+    },
     handleSubmit(e) {
       e.preventDefault()
 
@@ -119,7 +143,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
-  }
+  },
 }
 </script>
 
@@ -131,5 +155,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#components-form-demo-global-state .language-bash {
+  max-width: 400px;
+  border-radius: 6px;
+  margin-top: 24px;
 }
 </style>
